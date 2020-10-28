@@ -10,8 +10,7 @@ else
 endif
 if !filereadable(expand($PLUGDIR.'plug.vim'))
   echo "Downloading junegunn/vim-plug to manage plugins..."
-  silent !mkdir -p $PLUGDIR
-  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > $PLUGDIR.'plug.vim'
+  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" -o $PLUGDIR'plug.vim' --create-dirs
   autocmd VimEnter * PlugInstall
 endif
 
@@ -44,7 +43,7 @@ call plug#end()
 set nocompatible                            " Use vim settings rather than vi
 filetype plugin indent on                   " Load plugin and indent files for specific filetypes
 set termguicolors                           " Enable 24-bit color
-syntax on                                   " Enable syntax highlighting
+syntax enable                               " Enable syntax highlighting
 set nu                                      " Show current line number
 set rnu                                     " Show relative line numbers
 set autoindent                              " Automatically indent new lines
@@ -68,8 +67,8 @@ set directory=~/.vim/tmp                    " put swap files in temp dir
 set wildignore=*/node_modules/*,*.swp,*.bak " Ignore these folders and files
 
 " colorscheme wal
-" colorscheme rigel
- colorscheme nightfly
+colorscheme rigel
+"colorscheme nightfly
 
 " Make background transparent
 hi Normal guibg=NONE ctermbg=NONE
@@ -98,8 +97,11 @@ nnoremap <silent> <leader>/ :nohlsearch<CR><C-L>
 " jk = esc
 inoremap jk <Esc>
 
-" Untab in insert mode
+" Untab in insert mode with shift+tab
 inoremap <s-tab> <c-d>
+
+" Open fzf
+nnoremap <silent> <leader>l :GFiles --cached --others --exclude-standard<cr>
 
 " =================
 "   Auto Commands
