@@ -1,17 +1,19 @@
+if has('nvim')
+  let $VIMHOME=$HOME.'/config/nvim'
+else
+  let $VIMHOME=$HOME.'/.vim'
+endif
+
 " ===================
 "   Plugins
 " ==================
 
 " Install junegunn/vim-plug if necessary
-if has('nvim')
-  let $PLUGDIR=$HOME.'/.config/nvim/autoload/'
-else
-  let $PLUGDIR=$HOME.'/.vim/autoload/'
-endif
-if !filereadable(expand($PLUGDIR.'plug.vim'))
+let $PLUGDIR=$VIMHOME.'/autoload'
+if !filereadable(expand($PLUGDIR.'/plug.vim'))
   echo "Downloading junegunn/vim-plug to manage plugins..."
-  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" -o $PLUGDIR'plug.vim' --create-dirs
-  autocmd VimEnter * PlugInstall
+  silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" -o $PLUGDIR'/plug.vim' --create-dirs
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin()
@@ -31,7 +33,7 @@ Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 
 " Finding/opening files
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 call plug#end()
@@ -40,30 +42,30 @@ call plug#end()
 "   General Settings
 " ====================
 
-set nocompatible                            " Use vim settings rather than vi
-filetype plugin indent on                   " Load plugin and indent files for specific filetypes
-set termguicolors                           " Enable 24-bit color
-syntax enable                               " Enable syntax highlighting
-set nu                                      " Show current line number
-set rnu                                     " Show relative line numbers
-set autoindent                              " Automatically indent new lines
-set smartindent                             " Smart automatic indent new lines for programming languages
-set expandtab                               " Replace tab character with spaces
-set tabstop=2                               " Number for spaces inserted instead of tab
-set shiftwidth=2                            " Use 2 spaces for indenting
-set softtabstop=2                           " Use 2 spaces for tabbing
-set hlsearch                                " Highlight search term
-set incsearch                               " Highlight search matches as you type
-set ignorecase                              " Ignore case while searching
-set smartcase                               " If search contains uppercase, make case-sensitive
-set splitbelow                              " Spawn horizontal splits below
-set splitright                              " Spawn vertical splits to the right
-set cursorline                              " Highlight current line
-set autoread                                " Reload file when changed externally
-set signcolumn=yes                          " Always show signcolumns
-set showmatch                               " Show matching parenthesis/brackets
-set wildmenu                                " Turn on commandline completion wild style
-set directory=~/.vim/tmp                    " Put swap files in temp dir
+set nocompatible                             " Use vim settings rather than vi
+filetype plugin indent on                    " Load plugin and indent files for specific filetypes
+set termguicolors                            " Enable 24-bit color
+syntax enable                                " Enable syntax highlighting
+set nu                                       " Show current line number
+set rnu                                      " Show relative line numbers
+set autoindent                               " Automatically indent new lines
+set smartindent                              " Smart automatic indent new lines for programming languages
+set expandtab                                " Replace tab character with spaces
+set tabstop=2                                " Number for spaces inserted instead of tab
+set shiftwidth=2                             " Use 2 spaces for indenting
+set softtabstop=2                            " Use 2 spaces for tabbing
+set hlsearch                                 " Highlight search term
+set incsearch                                " Highlight search matches as you type
+set ignorecase                               " Ignore case while searching
+set smartcase                                " If search contains uppercase, make case-sensitive
+set splitbelow                               " Spawn horizontal splits below
+set splitright                               " Spawn vertical splits to the right
+set cursorline                               " Highlight current line
+set autoread                                 " Reload file when changed externally
+set signcolumn=yes                           " Always show signcolumns
+set showmatch                                " Show matching parenthesis/brackets
+set wildmenu                                 " Turn on commandline completion wild style
+set directory=$VIMHOME/tmp                   " Put swap files in temp dir
 set wildignore+=*/node_modules/*,*.swp,*.bak " Ignore these folders and files
 
 " colorscheme wal
@@ -108,7 +110,7 @@ nnoremap <silent> <leader>l :GFiles --cached --others --exclude-standard<cr>
 " =================
 
 " Create the following folders if DNE
-silent execute '!mkdir -p $HOME/.vim/tmp'
+silent execute '!mkdir -p $VIMHOME/tmp'
 
 " Source vimrc after every write
 " TODO: Figure out why this freezes nvim
