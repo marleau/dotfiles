@@ -1,5 +1,5 @@
 if has('nvim')
-  let $VIMHOME=$HOME.'/config/nvim'
+  let $VIMHOME=$HOME.'/.config/nvim'
 else
   let $VIMHOME=$HOME.'/.vim'
 endif
