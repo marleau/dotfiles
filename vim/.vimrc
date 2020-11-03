@@ -94,7 +94,7 @@ nnoremap ; :
 " Open vimrc
 nnoremap <leader>v :e $MYVIMRC<cr>
 " Save and source current file
-nnoremap <leader>vv :w % <bar> :so %<cr> <bar> :exe ":echo 'vimrc reloaded'"<cr>
+nnoremap <leader>vv :w $MYVIMRC <bar> :so $MYVIMRC<cr> <bar> :exe ":echo 'vimrc reloaded'"<cr>
 
 " Clear search highlighting
 nnoremap <silent> <leader>/ :nohlsearch<CR><C-L>
