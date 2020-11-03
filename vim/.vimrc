@@ -18,6 +18,9 @@ endif
 
 call plug#begin()
 
+" Testing
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+
 " Colors
 Plug 'rigellute/rigel'
 Plug 'bluz71/vim-nightfly-guicolors'
@@ -123,7 +126,7 @@ silent execute '!mkdir -p $VIMHOME/tmp'
 "   coc.nvim settings
 " =====================
 
-let g:coc_global_extensions = ['coc-json', 'coc-prettier', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-angular', 'coc-python', 'coc-svg', 'coc-eslint']
+let g:coc_global_extensions = ['coc-json', 'coc-prettier', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-angular', 'coc-python', 'coc-svg']
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 " Use `[g` and `]g` to navigate diagnostics
