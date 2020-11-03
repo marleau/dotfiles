@@ -103,7 +103,7 @@ inoremap jk <Esc>
 inoremap <s-tab> <c-d>
 
 " Open fzf
-nnoremap <silent> <leader>l :GFiles --cached --others --exclude-standard<cr>
+nnoremap <silent> <c-p> :GFiles --cached --others --exclude-standard<cr>
 
 " =================
 "   Auto Commands
