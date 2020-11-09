@@ -69,6 +69,7 @@ set signcolumn=yes                           " Always show signcolumns
 set showmatch                                " Show matching parenthesis/brackets
 set wildmenu                                 " Turn on commandline completion wild style
 set directory=$VIMHOME/tmp                   " Put swap files in temp dir
+set backupdir=$VIMHOME/tmp                   " Put backup files in temp dir
 set wildignore+=*/node_modules/*,*.swp,*.bak " Ignore these folders and files
 
 " colorscheme wal
