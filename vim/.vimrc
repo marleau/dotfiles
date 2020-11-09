@@ -25,7 +25,6 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'rigellute/rigel'
 Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'dylanaraps/wal.vim'
-Plug 'ap/vim-css-color'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -34,6 +33,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
+Plug 'ap/vim-css-color'
 
 " Finding/opening files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -106,7 +106,12 @@ inoremap jk <Esc>
 inoremap <s-tab> <c-d>
 
 " Open fzf
-nnoremap <silent> <c-p> :GFiles --cached --others --exclude-standard<cr>
+" If in git repo, search git files; else, search all files
+if filereadable('.git/config')
+  nnoremap <silent> <c-p> :GFiles --cached --others --exclude-standard<cr>
+else
+  nnoremap <silent> <c-p> :Files<cr>
+endif
 
 " =================
 "   Auto Commands
