@@ -20,6 +20,7 @@ call plug#begin()
 
 " Testing
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'ledger/vim-ledger'
 
 " Colors
 Plug 'rigellute/rigel'
