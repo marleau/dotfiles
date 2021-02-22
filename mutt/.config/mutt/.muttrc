@@ -1,0 +1,13 @@
+# Paths
+set folder = "~/mail"
+set record = "~/mail/sent/"
+set tmpdir = "~/mail/tmp"
+set postponed = "~/mail/postponed"
+set spoolfile = "~/mail/inbox"
+set certificate_file = "~/.config/mutt/certificates"
+
+set editor = vim # default editor
+
+# vim-like keybinding
+bind pager j next-line
+bind pager k previous-line

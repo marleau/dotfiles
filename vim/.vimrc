@@ -19,8 +19,10 @@ endif
 call plug#begin()
 
 " Testing
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'ledger/vim-ledger'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 
 " Colors
 Plug 'rigellute/rigel'
@@ -39,6 +41,9 @@ Plug 'ap/vim-css-color'
 " Finding/opening files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" Notational Velocity
+Plug 'alok/notational-fzf-vim'
 
 call plug#end()
 
@@ -83,6 +88,8 @@ hi Normal guibg=NONE ctermbg=NONE
 highlight SignColumn guibg=NONE
 " Make line numbers transparent
 highlight LineNr guibg=NONE ctermbg=NONE
+
+lua require('init')
 
 " ===============
 "   Keymappings
@@ -129,29 +136,35 @@ silent execute '!mkdir -p $VIMHOME/tmp'
 " If file begins with #! or has bin, make executable on write
 "au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod +x <afile> | endif | endif
 
+" ======================
+"   notational-fzf-vim
+" ======================
+
+let g:nv_search_paths = ['~/notes']
+
 " =====================
 "   coc.nvim settings
 " =====================
 
-let g:coc_global_extensions = ['coc-json', 'coc-prettier', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-angular', 'coc-python', 'coc-svg']
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+" let g:coc_global_extensions = ['coc-json', 'coc-prettier', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-angular', 'coc-python', 'coc-svg']
+" " Use <c-space> to trigger completion.
+" inoremap <silent><expr> <c-space> coc#refresh()
+" " Use `[g` and `]g` to navigate diagnostics
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" " Remap keys for gotos
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+" " Use K to show documentation in preview window
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocAction('doHover')
+"   endif
+" endfunction
+" " Remap for rename current word
+" nmap <leader>rn <Plug>(coc-rename)
