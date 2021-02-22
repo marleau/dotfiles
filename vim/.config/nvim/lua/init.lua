@@ -48,23 +48,35 @@ local on_attach = function(client, bufnr)
 
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = function(...)
+    vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics,
+        {
+          underline = true,
+          update_in_insert = false
+        }
+    )(...)
+    pcall(vim.lsp.diagnostic.set_loclist, {open_loclist = false})
+  end
+
   -- Keymaps
-  keymap("n" , "gD"        , "vim.lsp.buf.declaration()")
-  keymap("n" , "gd"        , "vim.lsp.buf.definition()")
-  keymap("n" , "K"         , "vim.lsp.buf.hover()")
-  keymap("n" , "gi"        , "vim.lsp.buf.implementation()")
-  keymap("n" , "<C-k>"     , "vim.lsp.buf.signature_help()")
-  keymap("n" , "<space>wa" , "vim.lsp.buf.add_workspace_folder()")
-  keymap("n" , "<space>wr" , "vim.lsp.buf.remove_workspace_folder()")
-  keymap("n" , "<space>wl" , "print(vim.inspect(vim.lsp.buf.list_workspace_folders()))")
-  keymap("n" , "<space>D"  , "vim.lsp.buf.type_definition()")
-  keymap("n" , "<space>rn" , "vim.lsp.buf.rename()")
-  keymap("n" , "gr"        , "vim.lsp.buf.references()")
-  keymap("n" , "<space>e"  , "vim.lsp.diagnostic.show_line_diagnostics()")
-  keymap("n" , "[d"        , "vim.lsp.diagnostic.goto_prev()")
-  keymap("n" , "]d"        , "vim.lsp.diagnostic.goto_next()")
-  keymap("n" , "<space>q"  , "vim.lsp.diagnostic.set_loclist()")
-  keymap("n" , "<space>f"  , "vim.lsp.buf.formatting()")
+  keymap("n" , "gD"         , "vim.lsp.buf.declaration()")
+  keymap("n" , "gd"         , "vim.lsp.buf.definition()")
+  keymap("n" , "K"          , "vim.lsp.buf.hover()")
+  keymap("n" , "gi"         , "vim.lsp.buf.implementation()")
+  keymap("n" , "<C-k>"      , "vim.lsp.buf.signature_help()")
+  keymap("n" , "<space>wa"  , "vim.lsp.buf.add_workspace_folder()")
+  keymap("n" , "<space>wr"  , "vim.lsp.buf.remove_workspace_folder()")
+  keymap("n" , "<space>wl"  , "print(vim.inspect(vim.lsp.buf.list_workspace_folders()))")
+  keymap("n" , "<space>D"   , "vim.lsp.buf.type_definition()")
+  keymap("n" , "<space>rn"  , "vim.lsp.buf.rename()")
+  keymap("n" , "gr"         , "vim.lsp.buf.references()")
+  keymap("n" , "<space>e"   , "vim.lsp.diagnostic.show_line_diagnostics()")
+  keymap("n" , "[d"         , "vim.lsp.diagnostic.goto_prev()")
+  keymap("n" , "]d"         , "vim.lsp.diagnostic.goto_next()")
+  keymap("n" , "<space>q"   , "vim.lsp.diagnostic.set_loclist()")
+  keymap("n" , "<space>f"   , "vim.lsp.buf.formatting()")
+  keymap("n" , "<leader>ca" , "vim.lsp.buf.code_action()")
 end
 
 -- Typescript
