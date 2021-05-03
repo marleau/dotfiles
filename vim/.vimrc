@@ -23,6 +23,7 @@ call plug#begin()
 Plug 'ledger/vim-ledger'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-lua/completion-nvim'
 
 " Colors
 Plug 'rigellute/rigel'
@@ -77,6 +78,8 @@ set wildmenu                                 " Turn on commandline completion wi
 set directory=$VIMHOME/tmp                   " Put swap files in temp dir
 set backupdir=$VIMHOME/tmp                   " Put backup files in temp dir
 set wildignore+=*/node_modules/*,*.swp,*.bak " Ignore these folders and files
+set completeopt=menuone,noinsert,noselect
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 " colorscheme wal
 colorscheme rigel
@@ -135,6 +138,14 @@ silent execute '!mkdir -p $VIMHOME/tmp'
 
 " If file begins with #! or has bin, make executable on write
 "au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod +x <afile> | endif | endif
+
+" Automatically toggle relative line numbers when entering buffer and insert
+" mode
+augroup line_number_toggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set rnu
+  autocmd BufLeave,FocusLost,InsertEnter * set nornu
+augroup END
 
 " ======================
 "   notational-fzf-vim

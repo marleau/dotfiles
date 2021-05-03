@@ -1,28 +1,30 @@
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function(...)
-    vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics,
-        {
-            underline = true,
-            update_in_insert = false
-        }
-    )(...)
-    pcall(vim.lsp.diagnostic.set_loclist, {open_loclist = false})
+  vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    {
+      underline = true,
+      signs = true,
+      update_in_insert = true
+    }
+  )(...)
+  pcall(vim.lsp.diagnostic.set_loclist, {open_loclist = false})
 end
 
+vim.cmd [[autocmd BufWritePre *.ts,*.js,*.html,*.scss,*.css,*.json lua vim.lsp.buf.formatting()]]
 
-vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
-    if err ~= nil or result == nil then
-        return
-    end
-    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
-        local view = vim.fn.winsaveview()
-        vim.lsp.util.apply_text_edits(result, bufnr)
-        vim.fn.winrestview(view)
-        if bufnr == vim.api.nvim_get_current_buf() then
-            vim.cmd [[noautocmd :update]]
-        end
-    end
-end
+-- vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
+--     if err ~= nil or result == nil then
+--         return
+--     end
+--     if not vim.api.nvim_buf_get_option(bufnr, "modified") then
+--         local view = vim.fn.winsaveview()
+--         vim.lsp.util.apply_text_edits(result, bufnr)
+--         vim.fn.winrestview(view)
+--         if bufnr == vim.api.nvim_get_current_buf() then
+--             vim.cmd [[noautocmd :update]]
+--         end
+--     end
+-- end
 
 -- =============================================================================
 --    Treesitter
@@ -48,17 +50,6 @@ local on_attach = function(client, bufnr)
 
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = function(...)
-    vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics,
-        {
-          underline = true,
-          update_in_insert = false
-        }
-    )(...)
-    pcall(vim.lsp.diagnostic.set_loclist, {open_loclist = false})
-  end
-
   -- Keymaps
   keymap("n" , "gD"         , "vim.lsp.buf.declaration()")
   keymap("n" , "gd"         , "vim.lsp.buf.definition()")
@@ -75,13 +66,21 @@ local on_attach = function(client, bufnr)
   keymap("n" , "[d"         , "vim.lsp.diagnostic.goto_prev()")
   keymap("n" , "]d"         , "vim.lsp.diagnostic.goto_next()")
   keymap("n" , "<space>q"   , "vim.lsp.diagnostic.set_loclist()")
-  keymap("n" , "<space>f"   , "vim.lsp.buf.formatting()")
   keymap("n" , "<leader>ca" , "vim.lsp.buf.code_action()")
+  if client.resolved_capabilities.document_formatting then
+  keymap("n" , "<space>f"   , "vim.lsp.buf.formatting()")
+  end
 end
 
 -- Typescript
 nvim_lsp.tsserver.setup {
-  on_attach = on_attach
+  on_attach = function(client, bufnr)
+    -- Prevent tsserver from formatting; Use prettier instead
+    client.resolved_capabilities.document_formatting = false
+
+    require'completion'.on_attach(client, bufnr)
+    on_attach(client, bufnr)
+  end
 }
 
 -- =============================================================================
@@ -90,30 +89,46 @@ nvim_lsp.tsserver.setup {
 
 local prettier = {
   formatCommand = ([[
-    npx prettier
-  ]]):gsub("\n", "")
-}
-local tslint = {
-  -- formatCommand = ([[
-  --   npx tslint --fix
-  -- ]]):gsub("\n", ""),
-  lintCommand = ([[
-    npx tslint
+  npx prettier
+  --stdin-filepath
+  ${INPUT}
   ]]):gsub("\n", ""),
+  formatStdin = true
+}
+local eslint = {
+  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+  lintStdin = true,
+  lintFormats = {"%f:%l:%c: %m"},
   lintIgnoreExitCode = true,
-  lintStdin = true
+  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+  formatStdin = true,
 }
 
 local languages = {
-  typescript = {prettier, tslint},
-  javascript = {prettier},
+  typescript = {prettier, eslint},
+  javascript = {prettier, eslint},
+  json = {prettier},
+  html = {prettier},
+  scss = {prettier},
+  css = {prettier}
 }
+local rootMarkers = { ".eslintrc.json", "package.json", ".git" }
 
 nvim_lsp.efm.setup {
-  init_options = { documentFormatting = true, lint = true },
+  init_options = {
+    documentFormatting = true,
+    codeAction = true,
+    documentSymbol = true,
+    lint = true
+  },
+  root_dir = nvim_lsp.util.root_pattern(unpack(rootMarkers)),
   filetypes = vim.tbl_keys(languages),
   settings = {
-    rootMarkers = { ".git", "package.json" },
+    rootMarkers = rootMarkers,
     languages = languages
-  }
+  },
+  on_attach = on_attach,
+  cmd = {"efm-langserver", "-logfile", "/tmp/efm.log", "-loglevel", "10"}
 }
+
+nvim_lsp.angularls.setup{}
