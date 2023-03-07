@@ -19,11 +19,12 @@ endif
 call plug#begin()
 
 " Testing
-" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'ledger/vim-ledger'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-Plug 'nvim-lua/completion-nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvim-lua/plenary.nvim' " Needed for null-ls
+Plug 'liuchengxu/graphviz.vim'
 
 " Colors
 Plug 'rigellute/rigel'
@@ -38,6 +39,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 Plug 'ap/vim-css-color'
+Plug 'norcalli/nvim-colorizer.lua'
 
 " Finding/opening files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -153,29 +155,3 @@ augroup END
 
 let g:nv_search_paths = ['~/notes']
 
-" =====================
-"   coc.nvim settings
-" =====================
-
-" let g:coc_global_extensions = ['coc-json', 'coc-prettier', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-angular', 'coc-python', 'coc-svg']
-" " Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
-" " Use `[g` and `]g` to navigate diagnostics
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" " Remap keys for gotos
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-" " Use K to show documentation in preview window
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocAction('doHover')
-"   endif
-" endfunction
-" " Remap for rename current word
-" nmap <leader>rn <Plug>(coc-rename)
