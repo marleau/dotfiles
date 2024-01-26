@@ -22,14 +22,11 @@ call plug#begin()
 Plug 'ledger/vim-ledger'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'nvim-lua/plenary.nvim' " Needed for null-ls
 Plug 'liuchengxu/graphviz.vim'
+Plug 'stevearc/conform.nvim'
 
 " Colors
 Plug 'rigellute/rigel'
-Plug 'bluz71/vim-nightfly-guicolors'
-Plug 'dylanaraps/wal.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
