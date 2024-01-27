@@ -72,7 +72,6 @@ require'lspconfig'.angularls.setup {}
 
 -- Typescript
 require'lspconfig'.tsserver.setup({
-  cmd = {'npx', 'typescript-language-server', '--stdio'}
   -- on_attach = function(client, bufnr)
   --   -- Prevent tsserver from formatting; Use prettier instead
   --   client.server_capabilities.documentFormattingProvider = false
@@ -88,7 +87,6 @@ require'lspconfig'.ccls.setup {}
 require'lspconfig'.svelte.setup {}
 
 require'lspconfig'.eslint.setup({
-  cmd = {'npx', 'vscode-eslint-language-server', '--stdio'},
   settings = {format = false}
 })
 
@@ -102,10 +100,19 @@ require('conform').setup({
     typescript = {{ "prettier" }},
     svelte = {{ "prettier" }},
     json = {{ "prettier" }},
+    jsonc = {{ "prettier" }},
+    css = {{ "prettier" }},
   },
   format_on_save = {
     lsp_fallback = true
   }
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
+  end,
 })
 
 -- -- =============================================================================
