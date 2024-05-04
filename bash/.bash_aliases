@@ -1,6 +1,7 @@
 alias cp='cp -i'
 alias ectool='~/code/EmbeddedController/build/hx20/util/ectool'
 alias g='git'
+alias gb='git branch'
 alias gc='git commit'
 alias gcan='git commit --amend --no-edit --date now'
 alias gco='git checkout'
