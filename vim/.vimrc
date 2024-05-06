@@ -19,14 +19,19 @@ endif
 call plug#begin()
 
 " Testing
-Plug 'ledger/vim-ledger'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'liuchengxu/graphviz.vim'
 Plug 'stevearc/conform.nvim'
 
+" Languages/filetypes
+Plug 'ledger/vim-ledger'
+Plug 'leafgarland/typescript-vim'
+" Plug 'leafOfTree/vim-svelte-plugin'
+Plug 'evanleck/vim-svelte', {'branch': 'main'}
+
 " Colors
-Plug 'rigellute/rigel'
+Plug 'Rigellute/rigel'
 
 " Git
 Plug 'tpope/vim-fugitive'
