@@ -83,7 +83,16 @@ require'lspconfig'.tsserver.setup({
 })
 
 -- CSS
-require'lspconfig'.ccls.setup {}
+require'lspconfig'.cssls.setup {
+  settings = {
+    scss = {
+      lint = {
+        unknownAtRules = "ignore"
+      }
+    }
+  }
+}
+require'lspconfig'.tailwindcss.setup {}
 
 -- Svelte
 require'lspconfig'.svelte.setup {}
