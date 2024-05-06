@@ -68,7 +68,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- Angular
-require'lspconfig'.angularls.setup {}
+require'lspconfig'.angularls.setup({
+  root_dir = require'lspconfig'.util.root_pattern('angular.json', 'project.json')
+})
 
 -- Typescript
 require'lspconfig'.tsserver.setup({
