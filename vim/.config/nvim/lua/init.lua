@@ -114,6 +114,7 @@ require('conform').setup({
     jsonc = {{ "prettier" }},
     css = {{ "prettier" }},
     markdown = {{ "prettier" }},
+    html = {{ "prettier" }},
   },
   format_on_save = {
     lsp_fallback = true
