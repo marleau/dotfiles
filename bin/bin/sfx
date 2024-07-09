@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Based on https://gitlab.com/EvanHahn/dotfiles
+
+set -e
+set -u
+set -o pipefail
+
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+exec mpv --really-quiet --no-video "$XDG_CONFIG_HOME/sfx/$1"* &

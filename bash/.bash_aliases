@@ -21,3 +21,13 @@ alias ll='ls -l --color=auto'
 alias ls='ls --color=auto'
 alias mv='mv -i'
 alias rm='rm -i'
+
+boop () {
+  local last="$?"
+  if [[ "$last" == '0' ]]; then
+    sfx good
+  else
+    sfx bad
+  fi
+  $(exit "$last")
+}
