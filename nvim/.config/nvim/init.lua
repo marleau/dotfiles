@@ -191,15 +191,15 @@ require('lspconfig').angularls.setup({
 
 require('lspconfig').tsserver.setup({})
 
-require('lspconfig').cssls.setup({
-    settings = {
-        scss = {
-            lint = {
-                unknownAtRules = "ignore"
-            }
-        }
-    }
-})
+-- require('lspconfig').cssls.setup({
+--     settings = {
+--         scss = {
+--             lint = {
+--                 unknownAtRules = "ignore"
+--             }
+--         }
+--     }
+-- })
 
 require('lspconfig').svelte.setup({})
 
