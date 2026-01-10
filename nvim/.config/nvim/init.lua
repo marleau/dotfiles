@@ -96,7 +96,7 @@ vim.cmd("autocmd FileType make setlocal noexpandtab softtabstop=0")
 
 -- treesitter
 
-require('nvim-treesitter.configs').setup({
+require('nvim-treesitter').setup({
     ensure_installed = { "javascript", "typescript", "bash", "json", "c", "lua", "luadoc", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
     sync_install = false,
     auto_install = true,
