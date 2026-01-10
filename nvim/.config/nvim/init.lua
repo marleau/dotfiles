@@ -157,7 +157,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 })
 
-require('lspconfig').lua_ls.setup({
+vim.lsp.config('lua_ls', {
     on_init = function(client)
         local path = client.workspace_folders[1].name
         if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
@@ -184,14 +184,16 @@ require('lspconfig').lua_ls.setup({
         Lua = {}
     }
 })
+vim.lsp.enable('lua_ls')
 
-require('lspconfig').angularls.setup({
+vim.lsp.config('angularls', {
     root_dir = require('lspconfig').util.root_pattern('angular.json', 'project.json')
 })
+vim.lsp.enable('angularls')
 
-require('lspconfig').tsserver.setup({})
+vim.lsp.enable('ts_ls')
 
--- require('lspconfig').cssls.setup({
+-- vim.lsp.config('cssls', {
 --     settings = {
 --         scss = {
 --             lint = {
@@ -201,8 +203,10 @@ require('lspconfig').tsserver.setup({})
 --     }
 -- })
 
-require('lspconfig').svelte.setup({})
+vim.lsp.enable('svelte')
 
-require('lspconfig').eslint.setup({
+vim.lsp.config('eslint', {
     settings = { format = false }
 })
+vim.lsp.enable('eslint')
+
