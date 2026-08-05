@@ -4,7 +4,12 @@
     pager = delta
 [interactive]
     ; diffFilter = diff-so-fancy --patch
-    diffFilter = delta --color-only
+    diffFilter = delta --color-only --features=interactive
+[pager]
+    blame  = delta
+    diff   = delta
+    reflog = delta
+    show   = delta
 [color]
     ui = true
 [delta]
@@ -12,6 +17,9 @@
     dark = true
     line-numbers = true
     hunk-header-style = omit
+    side-by-side = true
+[tag]
+    sort = -version:refname
 ; [color "diff-highlight"]
 ;     oldNormal = red bold
 ;     oldHighlight = red bold 52
@@ -25,3 +33,8 @@
 ;     old = red bold
 ;     new = green bold
 ;     whitespace = red reverse
+[alias]
+    who = "!git-who"
+    l = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+[credential]
+	helper = store
